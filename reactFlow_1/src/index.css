@@ -1,0 +1,121 @@
+/* 站点基础样式与背景美化 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --app-bg: #ffffff;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --fade-h: 56px;
+  --bg-gradient-start: #ffffff;
+  --bg-gradient-middle: #ffffff;
+  --bg-gradient-end: #f1f5f9;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: #ffffff !important;
+  background-attachment: initial !important;
+  position: relative;
+}
+
+/* 现有 class 兼容占位：若项目已有内容，这段放最底不影响 */
+/* 让竖向滚动条显示在左侧；支持的浏览器会稳定预留滚动槽位 */
+.scroll-leftbar {
+  direction: rtl;
+  scrollbar-gutter: stable both-edges;
+  /* 增强体验 */
+}
+
+.scroll-leftbar>.scroll-body {
+  direction: ltr;
+  /* 恢复正常文本与布局方向 */
+}
+
+/* loading-shimmer 效果 */
+.loading-shimmer {
+  position: relative;
+  background: linear-gradient(90deg, #333333 10%, #1a1a1a 30%, #000000 50%, #1a1a1a 70%, #333333 90%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+  border-radius: 4px;
+  min-height: 1em;
+  min-width: 100px;
+  display: inline-block;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* 文字 shimmer 效果 */
+.text-shimmer {
+  background: linear-gradient(90deg,
+      rgba(150, 150, 150, 0.8) 15%,
+      rgba(67, 66, 66, 0.95) 40%,
+      rgba(10, 10, 10, 1) 60%,
+      rgba(150, 150, 150, 0.8) 85%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  animation: text-shimmer 1.8s linear infinite;
+}
+
+@keyframes text-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* 长文本换行与Markdown内容兼容性优化 */
+.markdown-content {
+  /* 允许在任意位置断行，优先保证不溢出容器 */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* LaTeX 公式保持单行显示，避免被强制断行 */
+.markdown-content .katex,
+.markdown-content .katex-display {
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* 块级公式也改成更贴近行内的展示效果，防止被分拆成多行 */
+.markdown-content .katex-display {
+  display: block;
+  margin: 0;
+}
+
+.markdown-content pre,
+.markdown-content code,
+.markdown-content kbd,
+.markdown-content samp {
+  /* 代码块默认不换行，容易导致横向溢出；这里强制可换行 */
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* 处理极长链接的断行（避免撑破布局） */
+.markdown-content a {
+  word-break: break-all;
+}
